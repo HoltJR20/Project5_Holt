@@ -18,8 +18,8 @@ public class Player {
      * @param color Passes a color object to be assigned to the Player
      */
 
-    public void Player(Color color) {
-
+    public Player(Color color) {
+        this.color = color;
     }
 
     /**

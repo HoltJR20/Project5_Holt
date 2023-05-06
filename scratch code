@@ -1,0 +1,29 @@
+
+
+
+
+//                getBlackPlayer().getPieces().get(0).setPosition(0, 1);
+//                board[0][1] = getBlackPlayer().getPieces().get(0);
+//                getBlackPlayer().getPieces().get(1).setPosition(0, 3);
+//                getBlackPlayer().getPieces().get(2).setPosition(0, 5);
+//                getBlackPlayer().getPieces().get(3).setPosition(0, 7);
+//                getBlackPlayer().getPieces().get(4).setPosition(1, 0);
+//                getBlackPlayer().getPieces().get(5).setPosition(1, 2);
+//                getBlackPlayer().getPieces().get(6).setPosition(1, 4);
+//                getBlackPlayer().getPieces().get(7).setPosition(1, 6);
+//                getBlackPlayer().getPieces().get(8).setPosition(2, 1);
+//                getBlackPlayer().getPieces().get(9).setPosition(2, 3);
+//                getBlackPlayer().getPieces().get(10).setPosition(2, 5);
+//                getBlackPlayer().getPieces().get(11).setPosition(2, 7);
+//                getWhitePlayer().getPieces().get(0).setPosition(5, 0);
+//                getWhitePlayer().getPieces().get(1).setPosition(5, 2);
+//                getWhitePlayer().getPieces().get(2).setPosition(5, 4);
+//                getWhitePlayer().getPieces().get(3).setPosition(5, 6);
+//                getWhitePlayer().getPieces().get(4).setPosition(6, 1);
+//                getWhitePlayer().getPieces().get(5).setPosition(6, 3);
+//                getWhitePlayer().getPieces().get(6).setPosition(6, 5);
+//                getWhitePlayer().getPieces().get(7).setPosition(6, 7);
+//                getWhitePlayer().getPieces().get(8).setPosition(7, 0);
+//                getWhitePlayer().getPieces().get(9).setPosition(7, 2);
+//                getWhitePlayer().getPieces().get(10).setPosition(7, 4);
+//                getWhitePlayer().getPieces().get(11).setPosition(7, 6);

@@ -7,10 +7,8 @@ public class Board {
      * Sets the size of the board
      */
     private final int SIZE = 8;
-    /**
-     * Arraylist that stores the board (8x8 board)
-     */
-    private char[][] board = new char[SIZE][SIZE];
+
+    private Piece board[][] = new Piece[SIZE][SIZE];
     /**
      * Represents current player
      */
@@ -27,8 +25,73 @@ public class Board {
     /**
      * Constructor which creates an empty board
      */
-    public Board (){
+    public Board (){  }
 
+    public Board (Player whitePlayer, Player blackPlayer){
+        setBlackPlayer(blackPlayer);
+        setWhitePlayer(whitePlayer);
+        newBoard();
+    }
+
+    public void newBoard() {
+        if (getBlackPlayer() != null && getWhitePlayer() != null) {
+            if (getBlackPlayer().getPieces().size() == 12 && getWhitePlayer().getPieces().size() == 12) {
+                //Initiate Black Player Pieces
+                int col = 0;
+                int row = 0;
+                int piecesToAllocate = 12;
+                while (piecesToAllocate > 0) {
+                    for (; row < 3; row++) {
+                        if (col == 8) {col = 1;}
+                        if (col == 9) {col = 0;}
+                        for (; col < SIZE; col+=2) {
+                            getBlackPlayer().getPieces().get(12 - piecesToAllocate).setPosition(row, col);
+                            board[row][col] = getBlackPlayer().getPieces().get(12 - piecesToAllocate);
+                            piecesToAllocate -= 1;
+                        }
+                    }
+                }
+
+                //Initiate White Player Pieces
+                piecesToAllocate = 12;
+                row = 5;
+                while (piecesToAllocate > 0) {
+                    for (; row < SIZE; row++) {
+                        if (col == 8) {col = 1;}
+                        if (col == 9) {col = 0;}
+                        for (; col < SIZE; col+=2) {
+                            getWhitePlayer().getPieces().get(12 - piecesToAllocate).setPosition(row, col);
+                            board[row][col] = getWhitePlayer().getPieces().get(12 - piecesToAllocate);
+                            piecesToAllocate -= 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void setWhitePlayer(Player white) {
+        this.whitePlayer = white;
+    }
+
+    public Player getWhitePlayer() {
+        return whitePlayer;
+    }
+
+    public void setBlackPlayer(Player black) {
+        this.blackPlayer = black;
+    }
+
+    public Player getBlackPlayer() {
+        return blackPlayer;
+    }
+
+    public int getColumn(int location) {
+        return (location-1) % SIZE;
+    }
+
+    public int getRow(int location) {
+        return (location-1) / SIZE;
     }
 
     /**
@@ -38,28 +101,89 @@ public class Board {
      * @return The piece at a specific location
      */
     public Piece getPiece(int row, int col) {
-        return null;
-
+        return board[row][col];
     }
 
     /**
-     * Moves a piece, taking the coordinates of where it was to where it is going
-     * @param player Passes current player
-     * @param fromRow Passes the current row number
-     * @param fromCol Passes the current column number
+     * Moves a piece, taking the coordinates of where it is going
+     * @param pc Passes current piece
      * @param toRow Passes the desired row number
      * @param toCol Passes the desired column number
+     * @return A boolean which is true when a piece was successfully moved, and false when otherwise
      */
 
-    public void movePiece(Player player, int fromRow, int fromCol, int toRow, int toCol){
+    public boolean movePiece(Piece pc, int toRow, int toCol){
+        // find pc's current position (embedded in the piece)
+        // validate move:  Black players can only move forward (increment); White players can only move backwards (decrement) UNLESS either is a king
+        // Check if move takes the opponents piece:  increments/decrements by 2 on both the x & y-axis
+        // set new location if successful move
 
+        if (pc.getColor().getIsWhite()) {
+            // White players can only decrement on the board  unless its a king
+            if (toRow < pc.getRow() || pc.getIsKing()) {
+                return executeUniversalMoveLogic(pc, toRow, toCol);
+             } else {
+                return false;
+            }
+        } else {
+            // Black players can only increment on the board unless its a king
+            if (toRow > pc.getRow() || pc.getIsKing()) {
+                return executeUniversalMoveLogic(pc, toRow, toCol);
+            } else {
+                return false;
+            }
+        }
     }
 
-    /**
-     * Determines whether a move is valid or not
-     * @return Boolean depending on if the move is valid
-     */
-    public boolean isValid() {
-        return false;
+
+    private boolean executeUniversalMoveLogic (Piece pc, int toRow, int toCol) {
+        // Validate the move itslef...how many rows & cols did they move?  Both must equal either 1 or 2
+        int rowMoves = Math.abs(toRow - pc.getRow());
+        int colMoves = Math.abs(toCol - pc.getCol());
+        if (colMoves != rowMoves) {return false;}
+
+        // Validate the destination cell is empty
+        if (board[toRow][toCol] != null) {return false;}
+
+        // Validate if they moved 2, did they jump and opponents piece?  if so, validate its existence and remove it from the board
+        if (colMoves == 2) {
+            if (toRow - pc.getRow() > 0) {
+                if (toCol - pc.getCol() > 0) {
+                    if (!removePieceFromBoard(pc, toRow-1, toCol-1)) { return false; }
+                } else {
+                    if (!removePieceFromBoard(pc, toRow-1, toCol+1)) { return false; }
+                }
+            } else {
+                if (toCol - pc.getCol() > 0) {
+                    if (!removePieceFromBoard(pc, toRow+1, toCol-1)) { return false; }
+                } else {
+                    if (!removePieceFromBoard(pc, toRow+1, toCol+1)) { return false; }
+                }
+            }
+        }
+
+        movePieceToDestination(pc, toRow, toCol);
+        return true;
     }
+
+    private boolean removePieceFromBoard (Piece pc, int row, int col) {
+
+        //Validate there is a piece to remove
+        if (board[row][col] == null) { return false; }
+
+        //Validate the piece to remove is not the same color (player isn't jumping his own piece)
+        if (pc.getColor() == board[row][col].getColor()) {return false;}
+
+        board[row][col] = null;
+        return true;
+    }
+
+    private void movePieceToDestination (Piece pc, int row, int col) {
+        board[row][col] = pc;
+        pc.setRow(row);
+        pc.setCol(col);
+    }
+
 }
+
+
