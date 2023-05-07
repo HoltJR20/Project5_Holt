@@ -78,6 +78,14 @@ public class Board {
         return whitePlayer;
     }
 
+    public void setCurrentPlayer(Player player) {
+        this.currentPlayer = player;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
     public void setBlackPlayer(Player black) {
         this.blackPlayer = black;
     }
@@ -171,8 +179,27 @@ public class Board {
         //Validate there is a piece to remove
         if (board[row][col] == null) { return false; }
 
-        //Validate the piece to remove is not the same color (player isn't jumping his own piece)
+        //Validate the piece to remove is not the same color (player isn't jumping their own piece)
         if (pc.getColor() == board[row][col].getColor()) {return false;}
+
+        // Remove the piece from the opponent's list of pieces
+        if (getCurrentPlayer().getColor().getIsWhite()) {
+            for (int i = 0; i < getBlackPlayer().getPieces().size(); i++) {
+                int rowToCheck = getBlackPlayer().getPieces().get(i).getRow();
+                int colToCheck = getBlackPlayer().getPieces().get(i).getCol();
+                if (rowToCheck == row && colToCheck == col) {
+                    getBlackPlayer().getPieces().remove(i);
+                }
+            }
+        } else {
+            for (int i = 0; i < getWhitePlayer().getPieces().size(); i++) {
+                int rowToCheck = getWhitePlayer().getPieces().get(i).getRow();
+                int colToCheck = getWhitePlayer().getPieces().get(i).getCol();
+                if (rowToCheck == row && colToCheck == col) {
+                    getWhitePlayer().getPieces().remove(i);
+                }
+            }
+        }
 
         board[row][col] = null;
         return true;
