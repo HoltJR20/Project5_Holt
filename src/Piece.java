@@ -21,7 +21,7 @@ public class Piece {
      * @param color Passes the color for a piece
      */
 
-    public void Piece(Color color) {
+    public Piece(Color color) {
         setColor(color);
         setIsKing(false);
     }
