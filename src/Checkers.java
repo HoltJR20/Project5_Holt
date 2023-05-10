@@ -1,3 +1,4 @@
+import java.util.Scanner;
 /**
  * This class will start and end every game of checkers, accessing a board to do it
  */
@@ -18,57 +19,54 @@ public class Checkers {
      */
 
     public void play() {
-        // initiate the Players; including colors and # of pieces
-        Player whitePlayer = new Player(new Color(true));
-        Player blackPlayer = new Player(new Color(false));
+        Player w = new Player(new Color(true));
+        Player b = new Player(new Color(false));
         Piece currentPiece;
 
-        // create a new board
-        setBoard(new Board(whitePlayer, blackPlayer));
-        // Black player always goes first
-        getBoard().setCurrentPlayer(blackPlayer);
+        setBoard(new Board(w, b));
+        getBoard().setCurrentPlayer(b);
 
-        /** Begin the game with a loop. The UI should execute this loop until there is a winner */
         while (!getIsEndGame()) {
-            int pieceIndex = 0; // set to the index of the piece to move
-            int toRow = 0; // set to the row to move the piece to
-            int toCol = 0; // set to the column to move the piece to
+            Scanner scn = new Scanner(System.in);
+            System.out.print("Enter piece index: ");
+            int pieceIndex = scn.nextInt();
+            System.out.println("Enter row to move to: ");
+            int toRow = scn.nextInt();
+            System.out.println("Enter column to move to: ");
+            int toCol = scn.nextInt();
 
-            // Retrieve the piece to move
             currentPiece = getBoard().getCurrentPlayer().getPieces().get(pieceIndex);
 
-            // Attempt to move the piece to the new location
             if (getBoard().movePiece(currentPiece, toRow, toCol)) {
-                //  Logic to check for a winner, if not should it be kinged and set current Player
                 if (getBoard().getCurrentPlayer().getColor().getIsWhite()) {
-                    if (blackPlayer.getPieces().size() < 1) {
+                    if (b.getPieces().size() < 1) {
                         setIsEndGame(true);
                         setWinner(getBoard().getCurrentPlayer());
                     } else {
-                        // check if a player needs to be Kinged
                         if (toRow == 0 && !currentPiece.getIsKing()) {
                             currentPiece.setIsKing(true);
                         }
-                        getBoard().setCurrentPlayer(blackPlayer);
+                        getBoard().setCurrentPlayer(b);
                     }
                 } else {
-                    if (whitePlayer.getPieces().size() < 1) {
+                    if (w.getPieces().size() < 1) {
                         setIsEndGame(true);
                         setWinner(getBoard().getCurrentPlayer());
                     } else {
-                        // check if a player needs to be Kinged
-                        if (toRow == 7 && !currentPiece.getIsKing())  {
+                        if (toRow == 7 && !currentPiece.getIsKing()) {
                             currentPiece.setIsKing(true);
                         }
-                        getBoard().setCurrentPlayer(whitePlayer);
+                        getBoard().setCurrentPlayer(w);
                     }
+
                 }
             } else {
-                // The move was invalid
-                System.out.println("Invalid move. Please try again.");
+                System.out.println("Invalid move. Try Again.");
             }
         }
+        System.out.println("Game over." + getWinner().getColor() + " wins.");
     }
+
 
 
     /**
