@@ -26,6 +26,8 @@ public class Checkers {
         setBoard(new Board(w, b));
         getBoard().setCurrentPlayer(b);
 
+
+
         while (!getIsEndGame()) {
             Scanner scn = new Scanner(System.in);
             System.out.print("Enter piece index: ");
@@ -90,13 +92,25 @@ public class Checkers {
         return winner;
     }
 
+    /**
+     * Setter for the winner of the game
+     * @param winner
+     */
     public void setWinner(Player winner) {
         this.winner = winner;
     }
 
+    /**
+     * setter for the board
+     * @param board
+     */
     public void setBoard(Board board) {
         this.brd = board;
     }
 
+    /**
+     * getter for the board
+     * @return
+     */
     public Board getBoard() { return brd; }
 }
