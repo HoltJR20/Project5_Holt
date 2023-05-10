@@ -19,6 +19,7 @@ public class Player {
      */
 
     public Player(Color color) {
+
         this.color = color;
     }
 
@@ -27,7 +28,7 @@ public class Player {
      * @return Color object according to the current player
      */
     public Color getColor() {
-        return null;
+        return color;
     }
 
     /**
@@ -36,7 +37,7 @@ public class Player {
      */
 
     public ArrayList<Piece> getPieces() {
-        return null;
+        return pieces;
     }
 
     /**
@@ -45,6 +46,6 @@ public class Player {
      */
 
     public void removePiece(Piece p) {
-
+        pieces.remove(p);
     }
 }
