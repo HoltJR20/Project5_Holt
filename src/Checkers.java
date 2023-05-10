@@ -28,22 +28,17 @@ public class Checkers {
         // Black player always goes first
         getBoard().setCurrentPlayer(blackPlayer);
 
-
-        /** Begin the game with a loop  The UI should execute this loop until there is a winner */
+        /** Begin the game with a loop. The UI should execute this loop until there is a winner */
         while (!getIsEndGame()) {
-            int pieceIndex;
-            int toRow;
-            int toCol;
-            /** THESE ARE TEST VARIABLES.  THE UI to set the "pieceIndex" for the piece to be moved and also the new coordinates.
-             *  This code can be deleted once implemented...*/
-            pieceIndex = 3;
-            toRow = 4;
-            toCol = 5;
-            /********************************************************************************************************************************/
+            int pieceIndex = 0; // set to the index of the piece to move
+            int toRow = 0; // set to the row to move the piece to
+            int toCol = 0; // set to the column to move the piece to
 
+            // Retrieve the piece to move
             currentPiece = getBoard().getCurrentPlayer().getPieces().get(pieceIndex);
-            if (getBoard().movePiece(currentPiece, toRow, toCol)) {
 
+            // Attempt to move the piece to the new location
+            if (getBoard().movePiece(currentPiece, toRow, toCol)) {
                 //  Logic to check for a winner, if not should it be kinged and set current Player
                 if (getBoard().getCurrentPlayer().getColor().getIsWhite()) {
                     if (blackPlayer.getPieces().size() < 1) {
@@ -69,9 +64,8 @@ public class Checkers {
                     }
                 }
             } else {
-                /** Code here should cover when the players move is invalid.  The following line can be modified or deleted upon UI implementation */
-                System.out.println("Invalid move.  Please try again");
-                /********************************************************************************************************************************/
+                // The move was invalid
+                System.out.println("Invalid move. Please try again.");
             }
         }
     }
