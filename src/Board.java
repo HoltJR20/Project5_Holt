@@ -35,7 +35,7 @@ public class Board {
 
     public void newBoard() {
         if (getBlackPlayer() != null && getWhitePlayer() != null) {
-            if (getBlackPlayer().getPieces().size() == 12 && getWhitePlayer().getPieces().size() == 12) {
+            if (getBlackPlayer().getPieces().size() != 12 && getWhitePlayer().getPieces().size() != 12) {
                 //Initiate Black Player Pieces
                 int col = 0;
                 int row = 0;
@@ -45,6 +45,7 @@ public class Board {
                         if (col == 8) {col = 1;}
                         if (col == 9) {col = 0;}
                         for (; col < SIZE; col+=2) {
+                            getBlackPlayer().getPieces().add(new Piece(new Color(false)));
                             getBlackPlayer().getPieces().get(12 - piecesToAllocate).setPosition(row, col);
                             board[row][col] = getBlackPlayer().getPieces().get(12 - piecesToAllocate);
                             piecesToAllocate -= 1;
@@ -60,6 +61,7 @@ public class Board {
                         if (col == 8) {col = 1;}
                         if (col == 9) {col = 0;}
                         for (; col < SIZE; col+=2) {
+                            getWhitePlayer().getPieces().add(new Piece(new Color(true)));
                             getWhitePlayer().getPieces().get(12 - piecesToAllocate).setPosition(row, col);
                             board[row][col] = getWhitePlayer().getPieces().get(12 - piecesToAllocate);
                             piecesToAllocate -= 1;
