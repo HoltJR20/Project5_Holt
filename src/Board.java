@@ -8,6 +8,10 @@ public class Board {
      */
     private final int SIZE = 8;
 
+    /**
+     * Board varible
+     */
+
     private Piece board[][] = new Piece[SIZE][SIZE];
     /**
      * Represents current player
@@ -27,11 +31,22 @@ public class Board {
      */
     public Board (){  }
 
+    /**
+     * Constructor which sets the players and calls the new board method
+     * @param whitePlayer Represents white player
+     * @param blackPlayer Represents black player
+     */
+
     public Board (Player whitePlayer, Player blackPlayer){
         setBlackPlayer(blackPlayer);
         setWhitePlayer(whitePlayer);
         newBoard();
     }
+
+    /**
+     * Creates a new board with each of the players' pieces initialized.
+     */
+
 
     public void newBoard() {
         if (getBlackPlayer() != null && getWhitePlayer() != null) {
@@ -72,33 +87,72 @@ public class Board {
         }
     }
 
+    /**
+     * Setter for white player
+     * @param white Passes white player
+     */
     public void setWhitePlayer(Player white) {
         this.whitePlayer = white;
     }
 
+    /**
+     * Returns white player
+     * @return whitePlayer
+     */
+
     public Player getWhitePlayer() {
         return whitePlayer;
     }
-
+    /**
+     * Setter for current player
+     * @param player Passes current player
+     */
     public void setCurrentPlayer(Player player) {
         this.currentPlayer = player;
     }
+
+    /**
+     * Returns current player
+     * @return currentPlayer
+     */
 
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
+    /**
+     * Setter for black player
+     * @param black Passes black player
+     */
+
     public void setBlackPlayer(Player black) {
         this.blackPlayer = black;
     }
+
+    /**
+     * Returns black player
+     * @return black player
+     */
 
     public Player getBlackPlayer() {
         return blackPlayer;
     }
 
+    /**
+     * Returns column number
+     * @param location The "col" number of a piece's location
+     * @return numerical representation of the column location
+     */
+
     public int getColumn(int location) {
         return (location-1) % SIZE;
     }
+
+    /**
+     * Returns row number
+     * @param location The "row" number of a piece's location
+     * @return numerical representation of the row location
+     */
 
     public int getRow(int location) {
         return (location-1) / SIZE;
@@ -120,6 +174,14 @@ public class Board {
      * @param toRow Passes the desired row number
      * @param toCol Passes the desired column number
      * @return A boolean which is true when a piece was successfully moved, and false when otherwise
+     */
+
+    /**
+     * Method for moving a piece (see comments below)
+     * @param pc A specified piece
+     * @param toRow The row number the piece is being moved to
+     * @param toCol The col number the piece is being moved to
+     * @return A boolean based off the move's success
      */
 
     public boolean movePiece(Piece pc, int toRow, int toCol){
@@ -145,9 +207,16 @@ public class Board {
         }
     }
 
+    /**
+     * Validates a player's move
+     * @param pc A specified piece
+     * @param toRow The row number the piece is being moved to
+     * @param toCol The col number the piece is being moved to
+     * @return True or false depending on if the move is valid
+     */
 
     private boolean executeUniversalMoveLogic (Piece pc, int toRow, int toCol) {
-        // Validate the move itslef...how many rows & cols did they move?  Both must equal either 1 or 2
+        // Validate the move itself...how many rows & cols did they move?  Both must equal either 1 or 2
         int rowMoves = Math.abs(toRow - pc.getRow());
         int colMoves = Math.abs(toCol - pc.getCol());
         if (colMoves != rowMoves) {return false;}
@@ -176,6 +245,13 @@ public class Board {
         return true;
     }
 
+    /**
+     * Removes a piece from the board
+     * @param pc A specified piece
+     * @param row the piece's row
+     * @param col the piece's col
+     * @return True or false depending if the piece was successfully removed
+     */
     private boolean removePieceFromBoard (Piece pc, int row, int col) {
 
         //Validate there is a piece to remove
@@ -207,7 +283,15 @@ public class Board {
         return true;
     }
 
+    /**
+     * Sets piece at a new destination if previous conditions passed
+     * @param pc A specified piece
+     * @param row The desired row
+     * @param col The desired col
+     */
+
     private void movePieceToDestination (Piece pc, int row, int col) {
+        board[pc.getRow()][pc.getCol()] = null;
         board[row][col] = pc;
         pc.setRow(row);
         pc.setCol(col);

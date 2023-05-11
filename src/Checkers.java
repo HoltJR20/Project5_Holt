@@ -21,6 +21,7 @@ public class Checkers {
     public void play() {
         Player w = new Player(new Color(true));
         Player b = new Player(new Color(false));
+        String playerColor = new String("");
         Piece currentPiece;
 
         setBoard(new Board(w, b));
@@ -29,6 +30,11 @@ public class Checkers {
 
 
         while (!getIsEndGame()) {
+            if (getBoard().getCurrentPlayer().getColor().getIsWhite() == true) {
+                playerColor = "White";
+            } else {
+                playerColor = "Black";
+            }
             Scanner scn = new Scanner(System.in);
             System.out.print("Enter piece index: ");
             int pieceIndex = scn.nextInt();
